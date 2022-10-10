@@ -47,6 +47,9 @@ public class GameManager : MonoBehaviour
 
     private bool actuallyTrue = false;
 
+    // audio
+    AudioSource mySource;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -57,6 +60,8 @@ public class GameManager : MonoBehaviour
         //start the dialogue
         currentDialogue = phaseOneDialogue;
         dialogueBox.text = currentDialogue[dialogueIndex];
+
+        mySource = GetComponent<AudioSource>();
     }
 
     void SetDialogueText()
@@ -177,6 +182,7 @@ public class GameManager : MonoBehaviour
             case 4:
                 currentDialogue = phaseSevenDialogue;
                 phaseIndex = 5;
+                mySource.Play();
                 // GiveResults();
                 break;
             case 5:
