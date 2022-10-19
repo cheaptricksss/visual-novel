@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -36,6 +37,11 @@ public class GameManager : MonoBehaviour
 
     public string clownMessage;
     public string notAClownMessage;
+
+    public GameObject may;
+    public RawImage mayImageComponent;
+    // different images of the character (5 in total)
+    public Texture may_normal;
 
 
     //"score" for how much of a clown u r
@@ -158,6 +164,7 @@ public class GameManager : MonoBehaviour
             case 0:
                 currentDialogue = phaseTwoDialogue;
                 phaseIndex = 1;
+                ChangeImage(may_normal);
                 break;
             case 1:
                 currentDialogue = phaseThreeDialogue;
@@ -209,4 +216,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void ChangeImage(Texture newImage)
+    {
+        mayImageComponent.texture = newImage;
+    }
+  
 }
