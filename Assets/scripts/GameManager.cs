@@ -42,6 +42,9 @@ public class GameManager : MonoBehaviour
     public RawImage mayImageComponent;
     // different images of the character (5 in total)
     public Texture may_normal;
+    public Texture may_happy;
+    public Texture may_mischivious;
+    public Texture may_inLove;
 
 
     //"score" for how much of a clown u r
@@ -104,10 +107,11 @@ public class GameManager : MonoBehaviour
             
             if (dialogueIndex == currentDialogue.Count - 1)
             {
-                //show the choices
                 SceneManager.LoadScene("Main");
+            }else if (dialogueIndex == currentDialogue.Count - 2)
+            {
+                may.SetActive(false);
             }
-            // SceneManager.LoadScene("Main");
         }
     }
 
@@ -164,57 +168,62 @@ public class GameManager : MonoBehaviour
             case 0:
                 currentDialogue = phaseTwoDialogue;
                 phaseIndex = 1;
-                ChangeImage(may_normal);
                 break;
             case 1:
                 currentDialogue = phaseThreeDialogue;
                 phaseIndex = 2;
+                ChangeImage(may_normal);
                 break;
             case 2:
                 // here, the answer given changes parts of the response
                 if (currentChoise == 1)
                 {
                     currentDialogue = phaseFourDialogue;
+                    ChangeImage(may_happy);
                 }
                 else if (currentChoise == 0)
                 {
                     currentDialogue = phaseFiveDialogue;
+                    ChangeImage(may_normal);
                 }
                 phaseIndex = 3;
                 break;
             case 3:
                 currentDialogue = phaseSixDialogue;
                 phaseIndex = 4;
+                ChangeImage(may_inLove);
                 break;
             case 4:
                 currentDialogue = phaseSevenDialogue;
                 phaseIndex = 5;
                 mySource.Play();
+                ChangeImage(may_normal);
                 // GiveResults();
                 break;
             case 5:
                 currentDialogue = phaseEightDialogue;
+                ChangeImage(may_normal);
                 // GiveResults();
                 break;
         }
         SetDialogueText();
     }
 
-    void GiveResults()
-    {
-        if(actuallyTrue == true)
-        {
-            // dialogueBox.text =
-        }
-        else if(clownyLove > 2)
-        {
-            dialogueBox.text = clownMessage;
-        }
-        else
-        {
-            dialogueBox.text = notAClownMessage;
-        }
-    }
+    //void GiveResults()
+    //{
+    //    if(actuallyTrue == true)
+    //    {
+    //        // dialogueBox.text =
+    //    }
+    //    else if(clownyLove > 2)
+    //    {
+    //        dialogueBox.text = clownMessage;
+    //    }
+    //    else
+    //    {
+    //        dialogueBox.text = notAClownMessage;
+    //    }
+    //}
 
     void ChangeImage(Texture newImage)
     {

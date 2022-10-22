@@ -858,7 +858,7 @@ RectTransform:
   m_GameObject: {fileID: 760631621}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalScale: {x: 0.22, y: 0.235, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1669120125}
@@ -866,7 +866,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 254.46011, y: -99.85998}
+  m_AnchoredPosition: {x: 254.4601, y: 7}
   m_SizeDelta: {x: 1144, y: 2048}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &760631623
@@ -889,7 +889,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 90675ff7895da4058abd06fcc7ad5bef, type: 3}
+  m_Texture: {fileID: 2800000, guid: 4a64bf56fdcd943bb8e51edc0737f9f3, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -1199,7 +1199,10 @@ MonoBehaviour:
   notAClownMessage: Bummer...
   may: {fileID: 760631621}
   mayImageComponent: {fileID: 760631623}
-  may_normal: {fileID: 2800000, guid: 6d13c5765faa743c7aaa5d09fb15ebc1, type: 3}
+  may_normal: {fileID: 2800000, guid: caa5f8134d4a14c08af1c3cadbd2e3fb, type: 3}
+  may_happy: {fileID: 2800000, guid: 33316a56143ff4a358c53f57ea7e6a1c, type: 3}
+  may_mischivious: {fileID: 2800000, guid: 650b793aa762a4f0fa5666d4eb65d107, type: 3}
+  may_inLove: {fileID: 2800000, guid: 6c77f0c9b5a73442c9aed8232c8f8114, type: 3}
 --- !u!82 &945760855
 AudioSource:
   m_ObjectHideFlags: 0
