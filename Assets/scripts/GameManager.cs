@@ -35,8 +35,8 @@ public class GameManager : MonoBehaviour
     //text component that is showing the dialogue
     public TMP_Text dialogueBox;
 
-    public string clownMessage;
-    public string notAClownMessage;
+    // public string clownMessage;
+    // public string notAClownMessage;
 
     public GameObject may;
     public RawImage mayImageComponent;
@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviour
 
     // audio
     AudioSource mySource;
+    AudioSource buttonSound;
 
     // Start is called before the first frame update
     void Start()
@@ -71,6 +72,7 @@ public class GameManager : MonoBehaviour
         dialogueBox.text = currentDialogue[dialogueIndex];
 
         mySource = GetComponent<AudioSource>();
+        buttonSound = GameObject.FindGameObjectWithTag("Panel").GetComponent<AudioSource>();
     }
 
     void SetDialogueText()
@@ -107,10 +109,20 @@ public class GameManager : MonoBehaviour
             
             if (dialogueIndex == currentDialogue.Count - 1)
             {
-                SceneManager.LoadScene("Main");
+                if (phaseIndex == 6)
+                {
+                    SceneManager.LoadScene("SecretEnd");
+                }
+                else if (phaseIndex == 5)
+                {
+                    SceneManager.LoadScene("NormalEnd");
+                }
             }else if (dialogueIndex == currentDialogue.Count - 2)
             {
-                may.SetActive(false);
+                if (phaseIndex == 6)
+                {
+                    may.SetActive(false);
+                }
             }
         }
     }
@@ -127,18 +139,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    //if we press "no",
     public void FaceyChoice()
     {
-        //if we press "no", just go to the next phase of questions
+        buttonSound.Play();
         currentChoise = 0;
         imBored++;
         GoToNextPhase();
         
     }
 
+    //if we press "yes", 
     public void ClownyChoice()
     {
-        //if we press "yes", increase clowny's score and then go to the next phase
+        buttonSound.Play();
         currentChoise = 1;
         // clownyLove++;
         GoToNextPhase();
@@ -147,6 +161,7 @@ public class GameManager : MonoBehaviour
     // hidden choice
     public void Actually()
     {
+        buttonSound.Play();
         actuallyTrue = true;
         phaseIndex = 5;
         GoToNextPhase();
@@ -203,6 +218,7 @@ public class GameManager : MonoBehaviour
             case 5:
                 currentDialogue = phaseEightDialogue;
                 ChangeImage(may_normal);
+                phaseIndex = 6;
                 // GiveResults();
                 break;
         }
