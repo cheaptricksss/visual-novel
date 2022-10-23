@@ -60,6 +60,11 @@ public class GameManager : MonoBehaviour
     AudioSource mySource;
     AudioSource buttonSound;
 
+
+    //typewriter
+    public float writingSpeed = 40f;
+    int charIndex = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -73,7 +78,14 @@ public class GameManager : MonoBehaviour
 
         mySource = GetComponent<AudioSource>();
         buttonSound = GameObject.FindGameObjectWithTag("Panel").GetComponent<AudioSource>();
+        // typewriter effect
+        // GetComponent<typewriter>().Run(dialogueBox.text, dialogueBox);
     }
+
+    //private void Update()
+    //{
+    //    GetComponent<typewriter>().Run(dialogueBox.text, dialogueBox);
+    //}
 
     void SetDialogueText()
     {
@@ -82,49 +94,59 @@ public class GameManager : MonoBehaviour
         {
             //set the dialogue component to show the line we're on
             dialogueBox.text = currentDialogue[dialogueIndex];
+            Run(dialogueBox.text, dialogueBox);
         }
     }
 
     public void AdvanceDialog()
     {
-        //if we haven't gotten our results yet
-        if (phaseIndex < 5)
+        if (charIndex >= currentDialogue[dialogueIndex].Length)
         {
-            //go to the next line
-            dialogueIndex++;
-            SetDialogueText();
-            //if we're on the last line of dialogue
-            // one more -1 because there is an either or in dialogue choices
-            if (dialogueIndex == currentDialogue.Count - 1)
+            //if we haven't gotten our results yet
+            if (phaseIndex < 5)
             {
-                //show the choices
-                SetupChoices();
+                //go to the next line
+                dialogueIndex++;
+                SetDialogueText();
+                //if we're on the last line of dialogue
+                // one more -1 because there is an either or in dialogue choices
+                if (dialogueIndex == currentDialogue.Count - 1)
+                {
+                    //show the choices
+                    SetupChoices();
+                }
+
             }
-            
-        }
-        else if(phaseIndex >= 5)
+            else if (phaseIndex >= 5)
+            {
+                dialogueIndex++;
+                SetDialogueText();
+
+                if (dialogueIndex == currentDialogue.Count - 1)
+                {
+                    if (phaseIndex == 6)
+                    {
+                        SceneManager.LoadScene("SecretEnd");
+                    }
+                    else if (phaseIndex == 5)
+                    {
+                        SceneManager.LoadScene("NormalEnd");
+                    }
+                }
+                else if (dialogueIndex == currentDialogue.Count - 2)
+                {
+                    if (phaseIndex == 6)
+                    {
+                        may.SetActive(false);
+                    }
+                }
+            }
+            charIndex = 0;
+        }else
         {
-            dialogueIndex++;
-            SetDialogueText();
-            
-            if (dialogueIndex == currentDialogue.Count - 1)
-            {
-                if (phaseIndex == 6)
-                {
-                    SceneManager.LoadScene("SecretEnd");
-                }
-                else if (phaseIndex == 5)
-                {
-                    SceneManager.LoadScene("NormalEnd");
-                }
-            }else if (dialogueIndex == currentDialogue.Count - 2)
-            {
-                if (phaseIndex == 6)
-                {
-                    may.SetActive(false);
-                }
-            }
+            charIndex = currentDialogue[dialogueIndex].Length;
         }
+        Run(dialogueBox.text, dialogueBox);
     }
 
     void SetupChoices()
@@ -142,30 +164,56 @@ public class GameManager : MonoBehaviour
     //if we press "no",
     public void FaceyChoice()
     {
-        buttonSound.Play();
-        currentChoise = 0;
-        imBored++;
-        GoToNextPhase();
-        
+        if (charIndex >= currentDialogue[dialogueIndex].Length)
+        {
+            charIndex = 0;
+            buttonSound.Play();
+            currentChoise = 0;
+            imBored++;
+            GoToNextPhase();
+        }
+        else
+        {
+            charIndex = currentDialogue[dialogueIndex].Length;
+        }
     }
 
     //if we press "yes", 
     public void ClownyChoice()
     {
-        buttonSound.Play();
-        currentChoise = 1;
-        // clownyLove++;
-        GoToNextPhase();
+        if (charIndex >= currentDialogue[dialogueIndex].Length)
+        {
+            charIndex = 0;
+            buttonSound.Play();
+            currentChoise = 1;
+            // clownyLove++;
+            GoToNextPhase();
+        }
+        else
+        {
+            charIndex = currentDialogue[dialogueIndex].Length;
+        }
     }
 
     // hidden choice
     public void Actually()
     {
-        buttonSound.Play();
-        actuallyTrue = true;
-        phaseIndex = 5;
-        GoToNextPhase();
+        if (charIndex >= currentDialogue[dialogueIndex].Length)
+        {
+            charIndex = 0;
+            buttonSound.Play();
+            actuallyTrue = true;
+            phaseIndex = 5;
+            GoToNextPhase();
+        }
+        else
+        {
+            charIndex = currentDialogue[dialogueIndex].Length;
+        }
     }
+
+
+
 
     void GoToNextPhase()
     {
@@ -245,5 +293,38 @@ public class GameManager : MonoBehaviour
     {
         mayImageComponent.texture = newImage;
     }
-  
+
+
+    // new codefor typewriter
+
+    public void Run(string txtToType, TMP_Text label)
+    {
+        StartCoroutine(TypeText(txtToType, label));
+    }
+
+    private IEnumerator TypeText(string txtToType, TMP_Text label)
+    {
+        float time = 0;
+        // int charIndex = 0;
+
+        while (charIndex < txtToType.Length)
+        {
+            //time value increments with time
+            time += Time.deltaTime * writingSpeed;
+            //will store the floored down value of time
+            charIndex = Mathf.FloorToInt(time);
+            // to keep charIndex smaller then length
+            charIndex = Mathf.Clamp(charIndex, 0, txtToType.Length);
+
+            // tells how many chars of the text will be written at each frame
+            label.text = txtToType.Substring(0, charIndex);
+
+            yield return null;
+        }
+
+        
+        label.text = txtToType;
+
+    }
+
 }
