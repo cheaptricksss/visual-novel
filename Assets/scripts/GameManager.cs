@@ -155,7 +155,7 @@ public class GameManager : MonoBehaviour
         nextButton.SetActive(false);
         choiceOne.SetActive(true);
         choiceTwo.SetActive(true);
-        if(imBored > 2)
+        if(imBored > 3)
         {
             hiddenChoice.SetActive(true);
         }
